@@ -2,14 +2,19 @@
   "name": "backend-main",
   "version": "1.0.0",
   "description": "Backend at Chai aur code",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index.js"
   },
   "keywords": [
     "JS",
     "Backend"
   ],
   "author": "Ayush Kumar Singh",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.11",
+    "prettier": "^3.7.4"
+  }
 }
