@@ -1,0 +1,15 @@
+{
+  "name": "backend-main",
+  "version": "1.0.0",
+  "description": "Backend at Chai aur code",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "JS",
+    "Backend"
+  ],
+  "author": "Ayush Kumar Singh",
+  "license": "ISC"
+}
