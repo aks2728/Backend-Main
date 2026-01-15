@@ -12,6 +12,20 @@ dotenv.config({
 })
 
 connectDB()
+// hmne connectDB db folder m index.js m likha h and we use async method, so when async method completes toh vo ek promise bhi return krta h, isliye hm .then() and .catch() use kr rhe h 
+// .then m kuch successful rkh lete h 
+// .catch m kuch error rkh lete h
+
+
+.then(() => {
+    // abhi tk database se connect hue the ab app listen krega 
+    app.listen(process.env.PORT || 8000, () => {
+        console.log(` Server is running at port : ${process.env.PORT}`);
+    })
+})
+.catch((err) => {
+    console.log("MONGO DB connection failed !!! ", err);
+})
 
 
 
