@@ -37,7 +37,7 @@ const videoSchema = new Schema({
     }
 }, {timestamps: true});
 
-
+// plugin is the middleware, and we use aggregate paginate bcz we will be using aggregate functions for getting videos with filters and sorting
 videoSchema.plugin(mongooseAggregatePaginate);
 
 export const Video = mongoose.model("Video", videoSchema);
