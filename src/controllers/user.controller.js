@@ -8,7 +8,8 @@ const registerUser = asyncHandler( async (req, res) => {
 
     // 1) Get user details from frontend
     const {fullName, email, username, password} = req.body // req.body m sara ka sara data aajata h jo ki by default express provide krata h
-    console.log("email: ", email);
+    
+    // console.log("email: ", email);
 
     // 2) Validation -- non empty fields
     /*
@@ -26,7 +27,7 @@ const registerUser = asyncHandler( async (req, res) => {
 
     // 3) check if user already exists with same email or username
     // User.findOne({email}) -- this is also correct but we want ki agr dono m se koi bhi match kr jaye toh bhi hume pata chal jae isliye hum $or operator use kr rhe h
-    const existedUser = User.findOne({
+    const existedUser = await User.findOne({
         $or: [{ email }, { username }]
     })
 
@@ -37,8 +38,18 @@ const registerUser = asyncHandler( async (req, res) => {
     // 4) Check for files (avatar and coverImage)
     // similarly jaise hum req.body se data le rhe h waise hi hum req.files se files le skte h jo multer middleware provide krata h
 
+    // console.log(req.files);
+    
+
     const avatarLocalPath = req.files?.avatar[0]?.path;
-    const coverImageLocalPath = req.files?.coverImage[0]?.path;
+    // const coverImageLocalPath = req.files?.coverImage[0]?.path; 
+    // this is correct but if user does not provide coverimage toh ye code crash ho jaega, isliye we use more safe classical if else approach
+    // avatarLocalPath this works fine bcz we check for avatarLocalPath later that if it is not present then we throw error because avatar is required field
+
+    let coverImageLocalPath;
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+        coverImageLocalPath = req.files.coverImage[0].path;
+    }
 
     if(!avatarLocalPath) { // bcz we set required: true for avatar in user.model.js file
         throw new ApiError(400, "Avatar image is required")
@@ -60,7 +71,7 @@ const registerUser = asyncHandler( async (req, res) => {
     const user = await User.create({
         fullName,
         email,
-        username: username.toLowercase(),
+        username: username.toLowerCase(),
         password,
         avatar: avatar.url,
         coverImage: coverImage?.url || "" // cover image is optional ( agr user ne coverImage nhi diya toh code crash ho skta tha ) that's why we use optional chaining ki agr user ne coverImage nhi diya toh empty stiring return krdo

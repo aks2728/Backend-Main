@@ -52,14 +52,16 @@ const userSchema = new Schema({
 
 // Hash password before saving the user
 // we use async function here because arrow function m this keyword ka access nhi hota and we need this keyword here to access userSchema
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function () {
 
-    if(!this.isModified("password")) { return next(); }
+    if(!this.isModified("password")) { 
+        return;
+    }
 
     // we need one if condition here because jab bhi user kuch bhi update krega tab bhi ye pre save middleware call hoga and password firse hash ho jayega jo ki sahi nhi hoga isliye hum check kr rhe h ki kya password modify hua h ya nhi
 
     this.password = await bcrypt.hash(this.password, 10);
-    next();
+
 })
 
 // 
