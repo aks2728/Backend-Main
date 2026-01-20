@@ -70,6 +70,11 @@ userSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password, this.password);
 }
 
+// AccesToken and refreshToken ka kaam hota h ki user ko baar baar password, emial, username ka daalna pde 
+// AccessToken ka expiry time chota hota h jaise 15 min ya 30 min
+// RefreshToken ka expiry time lamba hota h jaise 7 days ya 30 days
+// Jab AccessToken expire ho jata h tab user new AccessToken ke liye RefreshToken bhejta h aur agar RefreshToken valid hota h to user ko new AccessToken de diya jata h bina user se dobara se login karwaye
+
 userSchema.methods.generateAccessToken = function (){
     return jwt.sign({
         _id: this._id,
